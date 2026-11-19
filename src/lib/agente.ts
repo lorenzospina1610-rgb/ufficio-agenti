@@ -20,7 +20,10 @@ function configurazione() {
 
 export async function rispostaAgente(stanza: Stanza): Promise<string> {
   const { apiKey, modello } = configurazione();
-  const client = new Anthropic({ apiKey });
+  // Online, Netlify interrompe ogni richiesta dopo 60 secondi: fermiamo l'IA
+  // a 50 secondi per poter mostrare un messaggio chiaro. Niente tentativi
+  // automatici, che sforerebbero il limite.
+  const client = new Anthropic({ apiKey, timeout: 50_000, maxRetries: 0 });
 
   const messages: Anthropic.MessageParam[] = stanza.messaggi.map((m) => ({
     role: m.autore === "io" ? "user" : "assistant",
@@ -35,11 +38,16 @@ export async function rispostaAgente(stanza: Stanza): Promise<string> {
   try {
     risposta = await client.messages.create({
       model: modello,
-      max_tokens: 16000,
+      max_tokens: 8000,
       system,
       messages,
     });
   } catch (errore) {
+    if (errore instanceof Anthropic.APIConnectionTimeoutError) {
+      throw new ErroreAgente(
+        "L'agente ci ha messo troppo a rispondere. Prova a chiedere qualcosa di più breve, oppure riprova.",
+      );
+    }
     if (errore instanceof Anthropic.AuthenticationError) {
       throw new ErroreAgente("La chiave IA non è valida.");
     }

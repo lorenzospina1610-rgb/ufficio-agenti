@@ -1,0 +1,4 @@
+# Pubblicazione su Netlify (Next.js viene riconosciuto in automatico).
+[build]
+  command = "npm run build"
+  publish = ".next"
