@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { trovaStanza } from "@/lib/stanze";
 import { chiudiStanza, daiOrdine, riprova } from "../azioni";
 import { PulsanteInvio } from "../../componenti/PulsanteInvio";
+import { TestoFormattato } from "../../componenti/TestoFormattato";
 
 export const dynamic = "force-dynamic";
 
@@ -54,7 +55,11 @@ export default async function PaginaStanza({
               <p className="mb-1 text-xs opacity-60">
                 {m.autore === "io" ? "Tu" : "Agente"} · {formatoOra.format(new Date(m.data))}
               </p>
-              <p className="whitespace-pre-wrap break-words">{m.testo}</p>
+              {m.autore === "agente" ? (
+                <TestoFormattato testo={m.testo} />
+              ) : (
+                <p className="whitespace-pre-wrap break-words">{m.testo}</p>
+              )}
             </article>
           ))
         )}
