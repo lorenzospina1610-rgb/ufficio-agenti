@@ -6,6 +6,17 @@ import { PulsanteInvio } from "./componenti/PulsanteInvio";
 
 export const dynamic = "force-dynamic";
 
+// Testo dell'ultimo messaggio senza i segni del Markdown, su una riga.
+function anteprima(testo: string): string {
+  return testo
+    .replace(/^\s*([-*_])(\s*\1){2,}\s*$/gm, "")
+    .replace(/\*\*|__|`/g, "")
+    .replace(/(?<![\p{L}\p{N}])\*(?=\S)|(?<=\S)\*(?![\p{L}\p{N}])/gu, "")
+    .replace(/^\s*(#{1,6}|[-*•]|\d+[.)])\s+/gm, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 const campo =
   "w-full rounded-lg border border-current/20 bg-transparent px-3 py-2 text-base outline-none focus:border-current/60";
 
@@ -48,7 +59,7 @@ export default async function Home({
                     <span className="font-medium">{s.nome}</span>
                     <span className="mt-1 block truncate text-sm opacity-70">
                       {ultimo
-                        ? `${ultimo.autore === "io" ? "Tu" : "Agente"}: ${ultimo.testo}`
+                        ? `${ultimo.autore === "io" ? "Tu" : "Agente"}: ${anteprima(ultimo.testo)}`
                         : "Nessun ordine ancora"}
                     </span>
                   </Link>
