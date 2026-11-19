@@ -13,3 +13,9 @@ Web app privata dove agenti IA lavorano in "stanze" e ricevono ordini.
 - `npm run dev`: avvia in sviluppo
 - `npm run build`: compila per la produzione
 - `npm run lint`: controlla il codice
+
+## Accesso
+
+Tutte le pagine sono protette: senza la password si viene mandati a `/accesso`.
+La password è quella della variabile `APP_PASSWORD`. Se la cambi, chi era già
+entrato deve rifare l'accesso.
