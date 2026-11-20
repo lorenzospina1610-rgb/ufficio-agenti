@@ -23,7 +23,14 @@ export async function rispostaAgente(stanza: Stanza): Promise<string> {
   // Online, Netlify interrompe ogni richiesta dopo 60 secondi: fermiamo l'IA
   // a 50 secondi per poter mostrare un messaggio chiaro. Niente tentativi
   // automatici, che sforerebbero il limite.
-  const client = new Anthropic({ apiKey, timeout: 50_000, maxRetries: 0 });
+  // Indirizzo fisso di Anthropic: su Netlify la variabile ANTHROPIC_BASE_URL
+  // manderebbe le richieste al suo "AI Gateway", che rifiuta la nostra chiave.
+  const client = new Anthropic({
+    apiKey,
+    baseURL: "https://api.anthropic.com",
+    timeout: 50_000,
+    maxRetries: 0,
+  });
 
   const messages: Anthropic.MessageParam[] = stanza.messaggi.map((m) => ({
     role: m.autore === "io" ? "user" : "assistant",
