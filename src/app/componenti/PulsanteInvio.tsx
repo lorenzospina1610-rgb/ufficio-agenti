@@ -3,16 +3,20 @@
 import { useFormStatus } from "react-dom";
 
 // Pulsante che si disattiva e cambia testo mentre il modulo viene inviato.
+// Con `occupato` lo stato di attesa lo decide chi usa il pulsante.
 export function PulsanteInvio({
   testo,
   testoAttesa,
   variante = "pieno",
+  occupato,
 }: {
   testo: string;
   testoAttesa: string;
   variante?: "pieno" | "bordo";
+  occupato?: boolean;
 }) {
-  const { pending } = useFormStatus();
+  const stato = useFormStatus();
+  const pending = occupato ?? stato.pending;
   const stile =
     variante === "pieno"
       ? "bg-foreground text-background hover:opacity-90"
