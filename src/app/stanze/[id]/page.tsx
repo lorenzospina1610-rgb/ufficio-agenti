@@ -30,17 +30,19 @@ export default async function PaginaStanza({
         )}
       </header>
 
-      <section className="flex flex-col gap-3">
-        {stanza.messaggi.length === 0 ? (
-          <p className="opacity-70">Nessun ordine ancora. Scrivi il primo qui sotto.</p>
-        ) : (
-          stanza.messaggi.map((m, i) => (
+      {stanza.messaggi.length > 0 && (
+        <section className="flex flex-col gap-3">
+          {stanza.messaggi.map((m, i) => (
             <BollaMessaggio key={i} autore={m.autore} testo={m.testo} data={m.data} />
-          ))
-        )}
-      </section>
+          ))}
+        </section>
+      )}
 
-      <ConversazioneInDiretta idStanza={stanza.id} inAttesa={inAttesa} />
+      <ConversazioneInDiretta
+        idStanza={stanza.id}
+        inAttesa={inAttesa}
+        vuota={stanza.messaggi.length === 0}
+      />
 
       <form action={chiudiStanza.bind(null, stanza.id)} className="mt-6 border-t border-current/10 pt-4">
         <button type="submit" className="text-sm text-red-600 hover:underline dark:text-red-400">

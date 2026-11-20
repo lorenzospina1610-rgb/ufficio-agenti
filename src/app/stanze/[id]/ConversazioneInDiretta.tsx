@@ -19,9 +19,11 @@ const ERRORE_CONNESSIONE =
 export function ConversazioneInDiretta({
   idStanza,
   inAttesa,
+  vuota,
 }: {
   idStanza: string;
   inAttesa: boolean;
+  vuota: boolean;
 }) {
   const router = useRouter();
   const [lavoro, setLavoro] = useState<Lavoro | null>(null);
@@ -105,6 +107,10 @@ export function ConversazioneInDiretta({
 
   return (
     <>
+      {vuota && !lavoro && (
+        <p className="opacity-70">Nessun ordine ancora. Scrivi il primo qui sotto.</p>
+      )}
+
       {lavoro && (
         <section className="flex flex-col gap-3" aria-live="polite">
           {lavoro.ordine && <BollaMessaggio autore="io" testo={lavoro.ordine} data={lavoro.inizio} />}
