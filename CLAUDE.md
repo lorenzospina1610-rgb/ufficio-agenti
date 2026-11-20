@@ -9,3 +9,6 @@ Web app privata dove agenti IA lavorano in "stanze" e io do ordini.
 - Dopo ogni modifica importante fai commit con un messaggio chiaro in italiano.
 - Se una richiesta è ambigua, scegli la soluzione più semplice e scrivila nel riepilogo finale.
 - Non aggiungere librerie pesanti senza motivo.
+
+## Memoria del progetto
+- Prima di iniziare leggi docs/MEMORIA-PROGETTO.md: stato, decisioni, problemi già risolti e linee guida di lavoro. Aggiornalo quando cambia qualcosa di importante.
